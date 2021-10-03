@@ -1,0 +1,14 @@
+
+Hjavascript:S1128"%Remove this unused import of 'Label'.(Õ¥Ùè8™¹ğàÂ/
+[javascript:S1481"8Remove the declaration of the unused 'balance' variable.(¿õ‘™8™¹ğàÂ/
+Yjavascript:S1117+"1'balance' is already declared in the upper scope.(àÄİşûÿÿÿÿ8™¹ğàÂ/
+bjavascript:S1481"?Remove the declaration of the unused 'currentAddress' variable.(¢èÃ‘8™¹ğàÂ/
+fjavascript:S1481
+">Remove the declaration of the unused 'authenticated' variable.(¥†Ãëşÿÿÿÿ8™¹ğàÂ/
+Xjavascript:S1854"5Remove this useless assignment to variable "balance".(¿õ‘™8™¹ğàÂ/
+>javascript:S1116"Unnecessary semicolon.(½áˆşÿÿÿÿ8™¹ğàÂ/
+cjavascript:S1854
+";Remove this useless assignment to variable "authenticated".(¥†Ãëşÿÿÿÿ8™¹ğàÂ/
+_javascript:S1854"<Remove this useless assignment to variable "currentAddress".(¢èÃ‘8™¹ğàÂ/
+Yjavascript:S1117B"1'balance' is already declared in the upper scope.(àÄİşûÿÿÿÿ8™¹ğàÂ/
+Yjavascript:S1128"1Remove this unused import of 'ZIL_SIMULATED_API'.(½áˆşÿÿÿÿ8™¹ğàÂ/

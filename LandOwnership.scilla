@@ -1,0 +1,110 @@
+(***************************************************)
+(*                 Scilla version                  *)
+(***************************************************)
+
+scilla_version 0
+
+import BoolUtils
+
+(***************************************************)
+(*               Associated library                *)
+(***************************************************)
+
+library LandOwnership
+
+type Error =
+| CodeNotRegistrar
+| CodePropertyNotExists
+| CodeNotAuthorized
+
+let get_error_code =
+  fun (err: Error) =>
+    match err with
+    | CodeNotRegistrar => Int32 -1
+    | CodePropertyNotExists => Int32 -2
+    | CodeNotAuthorized => Int32 -3
+    end
+
+let addressStr = "address"
+let latStr = "latitude"
+let lngStr = "longitude"
+let one = Uint32 1
+
+
+(***************************************************)
+(*             The contract definition             *)
+(***************************************************)
+
+contract LandOwnership(registrar: ByStr20)
+
+field property: Map Uint32 (Map String String) = Emp Uint32 (Map String String)
+field owners: Map Uint32 ByStr20 = Emp Uint32 ByStr20
+field last_property_id: Uint32 = Uint32 0
+
+(***************************************************)
+(*                 Procedures                      *)
+(***************************************************)
+
+procedure ThrowError(err: Error)
+  error_code = get_error_code err;
+  e = { _exception : "Error"; code: error_code};
+  throw e
+end
+
+procedure IsRegistrar()
+  is_registrar = builtin eq registrar _sender;
+  match is_registrar with
+  | True =>
+  | False =>
+    err = CodeNotRegistrar;
+    ThrowError err
+  end
+end
+
+procedure IsValidProperty(property_id: Uint32)
+  is_property_exists <- exists property[property_id];
+  match is_property_exists with
+    | True =>
+    | False =>
+      err = CodePropertyNotExists;
+      ThrowError err
+  end
+end
+
+
+(***************************************************)
+(*                 Transitions                     *)
+(***************************************************)
+
+transition RegisterProperty(addr: String, lng: String, lat: String)
+  IsRegistrar;
+  current_property_id <- last_property_id;
+  new_property_id = builtin add current_property_id one;
+  property[new_property_id][addressStr] := addr;
+  property[new_property_id][lngStr] := lng;
+  property[new_property_id][latStr] := lat;
+  last_property_id := new_property_id;
+  e = { _eventname : "RegisterProperty"; status: "success"; recipient: _sender };
+  event e
+end
+
+transition TransferPropertyOwnership(property_id: Uint32, new_owner: ByStr20)
+  IsValidProperty property_id;
+  current_owner <- owners[property_id];
+  is_current_owner = match current_owner with
+    | None => False
+    | Some owner =>
+        builtin eq _sender owner
+    end;
+  is_registrar = builtin eq registrar _sender;
+  is_authorized = orb is_current_owner is_registrar;
+  match is_authorized with
+    | True =>
+        owners[property_id] := new_owner;
+        e = { _eventname : "TransferPropertyOwnership"; status: "success"; recipient: _sender };
+        event e
+    | False =>
+        err = CodeNotAuthorized;
+        ThrowError err
+  end
+end

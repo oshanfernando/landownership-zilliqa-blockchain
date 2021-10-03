@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useContext} from "react";
+import {AppContext} from "./context/UserContext";
+import {Container} from "semantic-ui-react";
+import Header from "./components/Header";
+import Property from "./components/Property";
+import Error from "./components/Error";
 
 function App() {
+  const ctx = useContext(AppContext);
+  const [authenticated, setAuthenticated] = ctx.auth;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <Header/>
+        <Container>
+          {
+            authenticated ? <Property/>
+                : <Error/>
+          }
+        </Container>
+
+      </div>
   );
 }
 
