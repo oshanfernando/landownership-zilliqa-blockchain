@@ -9,6 +9,8 @@ This project was created as an example to demonstrate how to write smart contrac
 
 <br>
 
+Checkout the [Medium article](https://medium.com/@oshan.fernando/scilla-smart-contracts-building-a-dapp-on-zilliqa-blockchain-part-1-d0e9436c91c2) for detailed explanation. 
+<br>
 
 ## Running the application
 
